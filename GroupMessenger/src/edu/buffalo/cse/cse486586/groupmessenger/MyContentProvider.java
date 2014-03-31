@@ -21,16 +21,15 @@ public class MyContentProvider extends ContentProvider {
 	private static final String KEY_FIELD = "key";
 	private static final String VALUE_FIELD = "value";
 
-	
 	@Override
 	public boolean onCreate() {
 		// TODO Auto-generated method stub
-		//contentURI = buildUri("content", "edu.buffalo.cse.cse486586.groupmessenger.provider");
+		// contentURI = buildUri("content",
+		// "edu.buffalo.cse.cse486586.groupmessenger.provider");
 		context = getContext();
 		return true;
 	}
 
-	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
@@ -46,34 +45,37 @@ public class MyContentProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		// TODO Auto-generated method stub
-		 
+
 		try {
-			
+
 			File myDir = new File(context.getFilesDir().getAbsolutePath());
-			FileWriter fw = new FileWriter(myDir + ((String) values.get(KEY_FIELD)));
+			FileWriter fw = new FileWriter(myDir
+					+ ((String) values.get(KEY_FIELD)));
 			fw.write((String) values.get(VALUE_FIELD));
 			fw.close();
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return uri;
-	
-		//return null;
+
+		// return null;
 	}
 
-	
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
 		// TODO Auto-generated method stub
 		try {
 			String column[] = new String[2];
 			String s;
 			column[0] = selection;
-			File myDir = new File(context.getFilesDir().getAbsolutePath()); 
-			BufferedReader br = new BufferedReader(new FileReader(myDir + selection));
+			File myDir = new File(context.getFilesDir().getAbsolutePath());
+			BufferedReader br = new BufferedReader(new FileReader(myDir
+					+ selection));
 			s = br.readLine();
 			column[1] = s;
-			MatrixCursor ms = new MatrixCursor(new String[]{KEY_FIELD,VALUE_FIELD});
+			MatrixCursor ms = new MatrixCursor(new String[] { KEY_FIELD,
+					VALUE_FIELD });
 			ms.addRow(column);
 			br.close();
 			return ms;
@@ -89,5 +91,4 @@ public class MyContentProvider extends ContentProvider {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }
